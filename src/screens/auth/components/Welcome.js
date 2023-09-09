@@ -4,7 +4,9 @@ import {w, h} from '../../../utils/responsive';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {TouchableOpacity} from 'react-native/types';
 
-const LogIn = () => {
+const Welcome = ({goToLogin}) => {
+  const familyImg = require('../../../assets/imgs/familyImg.jpg');
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -18,21 +20,31 @@ const LogIn = () => {
       <Text style={styles.txtPrimary}>
         {'basket is the no1 online store for\nboth new and used products'}
       </Text>
+
+      <Image source={familyImg} style={{height: h(50), width: w(50)}} />
+      <TouchableOpacity
+        style={{
+          width: w(300),
+          height: h(60),
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: h(30),
+          backgroundColor: 'rgb(255, 129, 55)',
+          borderRadius: w(10),
+        }}
+        onPress={goToLogin}>
+        <Text style={styles.txtPrimary}>Get Started</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
-export default LogIn;
+export default Welcome;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: w(30),
-    alignItems: 'center',
-  },
-  bgImg: {
-    flex: 1,
-    justifyContent: 'center',
+    backgroundColor: 'rgb(17, 46, 66)',
     alignItems: 'center',
   },
   headerContainer: {
@@ -60,7 +72,6 @@ const styles = StyleSheet.create({
   },
   txtSecondary: {
     color: 'rgb(28, 35, 45)',
-
     fontSize: h(30),
     marginTop: h(10),
     textAlign: 'center',

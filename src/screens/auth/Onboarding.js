@@ -1,11 +1,28 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
+import SafeAreaComp from '../../components/SafeAreComp';
+import Intro from './components/Intro';
+import Welcome from './components/Welcome';
+import {LOGIN_SCREEN} from '../../utils/constants/screenNames';
 
-const Onboarding = () => {
+const Onboarding = ({navigation}) => {
+  const [onboardingComplete, setOnboardingComplete] = useState(false);
+
+  const handleNext = () => {
+    setOnboardingComplete(true);
+  };
+
+  const goToLogin = () => {
+    navigation.navigate(LOGIN_SCREEN);
+  };
   return (
-    <View>
-      <Text>Onboarding</Text>
-    </View>
+    <SafeAreaComp>
+      {onboardingComplete ? (
+        <Welcome goToLogin={goToLogin} />
+      ) : (
+        <Intro handleNext={handleNext} />
+      )}
+    </SafeAreaComp>
   );
 };
 
