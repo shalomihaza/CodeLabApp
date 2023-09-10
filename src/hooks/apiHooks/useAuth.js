@@ -23,15 +23,8 @@ function useAuth() {
   //       const res = await getAllUsers();
   //       L('res', res);
   //       if (res.status == 200) {
-  //         if (!isMounted()) return;
-  //         // setUserInfo()
-  //         await localStorage.setItem(storageKeys.USER_EMAIL, '');
-  //         await localStorage.setItem(storageKeys.LOGIN_ACCESS_TOKEN, '');
   //       }
   //     } catch (error) {
-  //       L('loginErr', error);
-  //       setLoading(false);
-  //       setError(error);
   //     }
   //   };
   const loginUser = async ({username, password}) => {
@@ -41,17 +34,27 @@ function useAuth() {
         username,
         password,
       });
-      L('res', res);
+      setLoading(false);
+
+      L('resStatus', res?.status);
+      L('resData', res?.data);
+
       if (res.status == 200) {
         if (!isMounted()) return;
-        // setUserInfo()
-        await localStorage.setItem(storageKeys.USER_NAME, '');
-        await localStorage.setItem(storageKeys.LOGIN_ACCESS_TOKEN, '');
+        setData(res?.data);
+        L('resToken', res?.data?.token);
+        L('resEmail', res?.data?.email);
+        await localStorage.setItem(storageKeys.USER_EMAIL, res?.data?.email);
+        await localStorage.setItem(
+          storageKeys.LOGIN_ACCESS_TOKEN,
+          res?.data?.token,
+        );
       }
     } catch (error) {
       L('loginErr', error);
       setLoading(false);
       setError(error);
+      setData(null);
     }
   };
 

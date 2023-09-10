@@ -16,7 +16,7 @@ const Onboarding = ({navigation}) => {
     navigation.navigate(LOGIN_SCREEN);
   };
   const goBack = () => {
-    navigation.goBack();
+    setOnboardingComplete(false);
   };
   return (
     <SafeAreaComp>

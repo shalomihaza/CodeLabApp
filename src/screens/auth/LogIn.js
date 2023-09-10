@@ -1,5 +1,12 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Modal,
+  ActivityIndicator,
+} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import {TextInput, Checkbox} from 'react-native-paper';
 import {w, h} from '../../utils/responsive';
 import {L} from '../../utils/helpers';
@@ -11,7 +18,7 @@ import useAuth from '../../hooks/apiHooks/useAuth';
 import {useUserDataContext} from '../../store/context/auth/UserDataContext';
 
 const LogIn = () => {
-  const {setUserInfo, setLoggedIn} = useUserDataContext();
+  const {setUserInfo, setLoggedIn, setAccessToken} = useUserDataContext();
 
   const {loading, error, data, postLogin, clearError, getUsers} = useAuth();
 
@@ -21,15 +28,26 @@ const LogIn = () => {
   const [checked, setChecked] = useState(false);
   const [secure, setSecure] = useState(true);
 
+  useEffect(() => {
+    if (error) {
+      alert(error);
+      clearError();
+    }
+    if (data) {
+      setUserInfo(data);
+      setAccessToken(data?.token);
+      setLoggedIn(true);
+    }
+  }, [error, data]);
   const handleEmail = text => {
     setLoginEmail(text);
     const checkEmail = isEmailValid(text);
 
-    // if (!checkEmail.valid) {
-    //   setEmailErr(checkEmail.msg);
-    // } else {
-    //   setEmailErr('');
-    // }
+    if (!checkEmail.valid) {
+      setEmailErr(checkEmail.msg);
+    } else {
+      setEmailErr('');
+    }
   };
 
   const handlePassword = text => {
@@ -40,26 +58,24 @@ const LogIn = () => {
   };
 
   const handleLogin = async () => {
-    // if (emailErr) {
-    //   alert(emailErr);
-    //   return;
-    // }
+    if (emailErr) {
+      alert(emailErr);
+      return;
+    }
     if (loginEmail === '' || loginPassword === '') {
       alert('Please fill all the fields');
       return;
     }
-    postLogin({username: loginEmail, password: loginPassword});
+    const username = loginEmail?.split?.('@')[0];
+
+    L('username', username);
+    L('password', loginPassword);
+
+    postLogin({username, password: loginPassword});
   };
-  if (loading) {
-    alert('loading');
-  }
-  if (error) {
-    alert(error);
-    clearError();
-  }
-  if (data) {
-    //
-  }
+
+  L(loading);
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -118,6 +134,13 @@ const LogIn = () => {
       <TouchableOpacity style={styles.btnContainer} onPress={handleLogin}>
         <Text style={styles.btnTxt}>LOGIN</Text>
       </TouchableOpacity>
+      {loading && (
+        <Modal visble={loading} transparent>
+          <View style={styles.activitySpinnerContainer}>
+            <ActivityIndicator size="large" color="rgb(255, 129, 55)" />
+          </View>
+        </Modal>
+      )}
     </View>
   );
 };
@@ -187,5 +210,11 @@ const styles = StyleSheet.create({
     fontSize: h(20),
 
     textAlign: 'center',
+  },
+  activitySpinnerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.2)',
   },
 });

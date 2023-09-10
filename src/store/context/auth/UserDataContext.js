@@ -18,6 +18,8 @@ const UserDataContextProvider = ({children}) => {
 
         setUserInfo,
         setLoggedIn,
+        setAccessToken,
+        accessToken,
       }}>
       {children}
     </UserDataContext.Provider>
