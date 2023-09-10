@@ -15,10 +15,13 @@ const Onboarding = ({navigation}) => {
   const goToLogin = () => {
     navigation.navigate(LOGIN_SCREEN);
   };
+  const goBack = () => {
+    navigation.goBack();
+  };
   return (
     <SafeAreaComp>
       {onboardingComplete ? (
-        <Welcome goToLogin={goToLogin} />
+        <Welcome goToLogin={goToLogin} goBack={goBack} />
       ) : (
         <Intro handleNext={handleNext} />
       )}

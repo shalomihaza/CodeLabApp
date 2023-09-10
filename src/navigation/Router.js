@@ -6,11 +6,7 @@ import AppStack from './AppStack';
 import AuthStack from './AuthStack';
 
 const Router = () => {
-  const {loggedIn, setLoggedIn} = useUserDataContext();
-
-  useEffect(() => {
-    loggedIn && setLoggedIn(false);
-  }, []);
+  const {loggedIn} = useUserDataContext();
 
   return <>{loggedIn ? <AppStack /> : <AuthStack />}</>;
 };

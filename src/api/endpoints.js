@@ -1,16 +1,16 @@
 import localStorage, {storageKeys} from '../setup/db/localStorage';
-
+import {L} from '../utils/helpers';
 //common headers
 export const commonHeaders = async () => {
   //common headers
   const storedToken = await localStorage.getItem(
     storageKeys.LOGIN_ACCESS_TOKEN,
   );
-  console.log('storedToken', storedToken);
+  L('storedToken', storedToken);
 
   const accessToken = storedToken ? storedToken : '';
   const authorization = 'Bearer ' + accessToken;
-  console.log('accessToken', accessToken);
+  L('accessToken', accessToken);
 
   const cHeaders = {
     Authorization: authorization,
@@ -22,5 +22,7 @@ export const commonHeaders = async () => {
 //enpoints
 export const endpoints = {
   login: 'auth/login',
+  logout: 'auth/logout',
   fetchAllProducts: 'products',
+  users: 'users',
 };

@@ -15,10 +15,14 @@ export const errorLogger = (error = '', endPointCalled = '') => {
     L('errdata', error.response.data);
     L('errstatus', error.response.status);
     L('headers', error.response.headers);
+    return error?.response?.data?.message;
   } else if (error?.request) {
     // The request was made but no response was received
     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
     // http.ClientRequest in node.js
     L('requesterr', error.request);
+    return 'Unable to complete request';
+  } else {
+    return 'Unable to complete request';
   }
 };

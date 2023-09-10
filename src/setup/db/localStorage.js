@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const storageKeys = {
-  USER_EMAIL: 'USER_EMAIL',
+  USER_NAME: 'USER_EMAIL',
   LOGIN_ACCESS_TOKEN: 'LOGIN_ACCESS_TOKEN',
 };
 
